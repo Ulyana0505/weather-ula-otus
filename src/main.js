@@ -10,12 +10,14 @@ const ipHTML = document.getElementById("ip");
 
 const citiesList = [];
 
-getIP().
-    then((ip)=>getCoordinates(ip)).
-    then(({cityName, ll})=> {
-        getWeather(cityName);
-        mapStatic(ll);
-});
+startAll();
+
+async function initApp(){
+    const ip = await getIP();
+    const {cityName, ll} = await getCoordinates(ip);
+    getWeather(cityName);
+    mapStatic(ll);
+}
 
 async function getWeather(cityName) {
     const link = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=6dac2d983c4b4bff9266414437d14d5e`;
@@ -48,8 +50,7 @@ async function getCoordinates(ip) {
     let cityName = data.city.name_ru;
     let ll = data.city.lon + "," + data.city.lat;
     console.log(ll);
-    const cityANDLl = {cityName, ll};
-    return cityANDLl;
+    return {cityName, ll};
 }
 
 function mapStatic(ll) {
@@ -74,13 +75,19 @@ async function addCityInList(){
     input.value = "";
     await getWeather(cityName);
     cityCoordinatesByName(cityName).then((ll)=>mapStatic(ll));
-    li = document.createElement("li");
+    const li = document.createElement("li");
     li.setAttribute("data-city", cityName);
     li.innerHTML = cityName;
     list.append(li);
+    citiesList.push(cityName);
+    console.log(citiesList);
+    localStorage.setItem("cities", JSON.stringify(citiesList));
     if(list.childElementCount > 10) {
         list.childNodes[0].remove();
+        citiesList.shift();
+        localStorage.setItem("cities", JSON.stringify(citiesList));
     }
+
 }
 
 async function cityFromListClick(e){
@@ -91,3 +98,28 @@ async function cityFromListClick(e){
     }
 }
 
+async function startAll() {
+    if (localStorage.getItem("cities") === null) {
+        initApp();
+    } else {
+        initApp();
+        citiesFromStorage();
+    }
+}
+
+async function citiesFromStorage() {
+    const allCitiesFromStorage = JSON.parse(localStorage.getItem("cities"));
+    console.log(allCitiesFromStorage);
+    for(let i = 0; i < allCitiesFromStorage.length; i++) {
+        const cityName = allCitiesFromStorage[i];
+        const li = document.createElement("li");
+        li.setAttribute("data-city", cityName);
+        li.innerHTML = cityName;
+        list.append(li);
+        citiesList.push(cityName);
+    }
+}
+
+export {initApp, getWeather, getIP, 
+    getCoordinates, mapStatic, cityCoordinatesByName, 
+    addCityInList, cityFromListClick, startAll, citiesFromStorage};
