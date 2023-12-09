@@ -21,10 +21,10 @@ jobs:
     #   - name: Build
     #     run: |
     #       npm run build
-    #  - name: Build
-    #    run: |
-    #      mkdir page
-    #      cp dist/index.html page/
+      - name: Build
+        run: |
+          mkdir page
+          cp dist/* page/
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
