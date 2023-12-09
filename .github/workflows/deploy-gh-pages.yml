@@ -23,9 +23,9 @@ jobs:
     #       npm run build
       - name: Build
         run: |
-          mkdir dist
-          cp index.html dist/
+          mkdir page
+          cp dist/index.html page/
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist # The folder the action should deploy.
+          folder: page # The folder the action should deploy.
