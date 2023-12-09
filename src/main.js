@@ -1,15 +1,17 @@
-const temperature = document.getElementById("temperature");
-const weatherDescription = document.getElementById("weatherDescription");
-const city = document.getElementById("city");
-const weatherImage = document.getElementById("weatherImage");
-const input = document.getElementById("input");
-const button = document.getElementById("button");
-const list = document.getElementById("list");
-const map = document.getElementById("map");
+import "./style.css";
+import {idList, requestDomain} from "./constants";
+
 
 const citiesList = [];
 
-startAll();
+// getIP().
+//     then((ip)=>getCoordinates(ip)).
+//     then(({cityName, ll})=> {
+//         getWeather(cityName);
+//         mapStatic(ll);
+// });
+
+if(!window.jest) startAll();
 
 async function initApp(){
     const ip = await getIP();
@@ -18,8 +20,10 @@ async function initApp(){
     mapStatic(ll);
 }
 
-async function getWeather(cityName) {
-    const link = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=6dac2d983c4b4bff9266414437d14d5e`;
+//initApp();
+
+export async function getWeather(cityName) {
+    const link = `https://${requestDomain.openWeather}/data/2.5/weather?q=${cityName}&appid=6dac2d983c4b4bff9266414437d14d5e`;
     const result = await fetch(link);
     const data = await result.json();
     console.log(data.weather[0].description, data.main.temp, data.weather[0].icon);
@@ -28,14 +32,21 @@ async function getWeather(cityName) {
     const numtempInF = Number(tempInF);
     const tempInC = Math.round(numtempInF - 273.15);
 
+    const temperature = document.getElementById("temperature");
     temperature.innerText = `${tempInC}°C`;
+
+    const weatherDescription = document.getElementById("weatherDescription");
     weatherDescription.textContent = data.weather[0].description;
+
+    const city = document.getElementById("city");
     city.innerText = `${data.name}`;
+
+    const weatherImage = document.getElementById("weatherImage");
     weatherImage.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
 }
 
-async function getIP() {
-    const res = await fetch('https://ipapi.co/json/');
+export async function getIP() {
+    const res = await fetch(`https://${requestDomain.ipApi}/json/`);
     const data = await res.json();
     let ip = data.ip;
     console.log(ip);
@@ -43,7 +54,7 @@ async function getIP() {
 }
 
 async function getCoordinates(ip) {
-    const res = await fetch(`http://api.sypexgeo.net/json/${ip}`);
+    const res = await fetch(`https://${requestDomain.sypExGeo}/json/${ip}`);
     const data = await res.json();
     console.log(data.city.lat, data.city.lon, data.city.name_ru);
     let cityName = data.city.name_ru;
@@ -53,23 +64,21 @@ async function getCoordinates(ip) {
 }
 
 function mapStatic(ll) {
+    const map = document.getElementById("map");
     map.src = `https://static-maps.yandex.ru/v1?ll=${ll}&spn=0.016457,0.00619&apikey=220bcecd-2e57-4af8-9150-e82755be7199`;
 }
 
 async function cityCoordinatesByName(cityName) {
-    const link = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=6dac2d983c4b4bff9266414437d14d5e`;
+    const link = `https://${requestDomain.openWeather}/data/2.5/weather?q=${cityName}&appid=6dac2d983c4b4bff9266414437d14d5e`;
     const result = await fetch(link);
     const data = await result.json();
     console.log(data.coord.lon, data.coord.lat, data.name);
-    let ll = data.coord.lon + "," + data.coord.lat;
-    return ll;
+    return data.coord.lon + "," + data.coord.lat;
 }
 
-button?.addEventListener("click", addCityInList);
-
-list?.addEventListener("click", cityFromListClick);
-
-async function addCityInList(){
+export async function addCityInList(){
+    const list = document.getElementById(idList);
+    const input = document.getElementById("input");
     const cityName = input.value;
     input.value = "";
     await getWeather(cityName);
@@ -97,18 +106,24 @@ async function cityFromListClick(e){
     }
 }
 
-async function startAll() {
+export async function startAll() {
     if (localStorage.getItem("cities") === null) {
         initApp();
     } else {
         initApp();
         citiesFromStorage();
     }
+    const button = document.getElementById("button");
+    button.addEventListener("click", addCityInList);
+    document.getElementById(idList).addEventListener("click", cityFromListClick);
 }
 
 async function citiesFromStorage() {
     const allCitiesFromStorage = JSON.parse(localStorage.getItem("cities"));
     console.log(allCitiesFromStorage);
+    const list = document.getElementById(idList);
+    // localStorage.setItem("cities", JSON.stringify(allCitiesFromStorage));
+    // думала вдруг тогда города и те и те сохр будут, но не сработало
     for(let i = 0; i < allCitiesFromStorage.length; i++) {
         const cityName = allCitiesFromStorage[i];
         const li = document.createElement("li");
@@ -118,7 +133,3 @@ async function citiesFromStorage() {
         citiesList.push(cityName);
     }
 }
-
-module.exports = {initApp, getWeather, getIP, 
-    getCoordinates, mapStatic, cityCoordinatesByName, 
-    addCityInList, cityFromListClick, startAll, citiesFromStorage}; // или тут просто export??
