@@ -6,7 +6,6 @@ const input = document.getElementById("input");
 const button = document.getElementById("button");
 const list = document.getElementById("list");
 const map = document.getElementById("map");
-const ipHTML = document.getElementById("ip");
 
 const citiesList = [];
 
@@ -66,9 +65,9 @@ async function cityCoordinatesByName(cityName) {
     return ll;
 }
 
-button.addEventListener("click", addCityInList);
+button?.addEventListener("click", addCityInList);
 
-list.addEventListener("click", cityFromListClick);
+list?.addEventListener("click", cityFromListClick);
 
 async function addCityInList(){
     const cityName = input.value;
@@ -120,6 +119,6 @@ async function citiesFromStorage() {
     }
 }
 
-export {initApp, getWeather, getIP, 
+module.exports = {initApp, getWeather, getIP, 
     getCoordinates, mapStatic, cityCoordinatesByName, 
-    addCityInList, cityFromListClick, startAll, citiesFromStorage};
+    addCityInList, cityFromListClick, startAll, citiesFromStorage}; // или тут просто export??
