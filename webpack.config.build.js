@@ -1,20 +1,20 @@
-const path = require('path');
+const path = require("path");
 //const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    entry: {
-        main: path.resolve(__dirname, './src/main.js'),
-    },
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: '[name].bundle.js',
-        clean: true,
-    },
+  entry: {
+    main: path.resolve(__dirname, "./src/main.js"),
+  },
+  output: {
+    path: path.resolve(__dirname, "./dist"),
+    filename: "[name].bundle.js",
+    clean: true,
+  },
 
-    mode: 'production',
-/*    devServer: {
+  mode: "production",
+  /*    devServer: {
         //historyApiFallback: true,
         //contentBase: path.resolve(__dirname, './dist'),
         //open: true,
@@ -27,28 +27,25 @@ module.exports = {
             directory: path.join(__dirname, './dist'),
         },
     }, */
-    module: {
-        rules: [
-            {
-                test: /\.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader'
-                ]
-            }
-        ],
-    },
-    plugins: [
-        // ...
-        // применять изменения только при горячей перезагрузке
-        //new webpack.HotModuleReplacementPlugin(),
-        new MiniCssExtractPlugin(),
-        new HtmlWebpackPlugin({
-            /*title: "Прогноз погоды",
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
+  },
+  plugins: [
+    // ...
+    // применять изменения только при горячей перезагрузке
+    //new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin(),
+    new HtmlWebpackPlugin({
+      /*title: "Прогноз погоды",
             meta: {
                 viewport: 'width=device-width, initial-scale=1.0'
             },*/
-            template: "src/index.html",
-        })
-    ],
-}
+      template: "src/index.html",
+    }),
+  ],
+};

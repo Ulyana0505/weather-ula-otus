@@ -5,39 +5,32 @@
 
 /** @type {import('jest').Config} */
 const config = {
-
-  coverageReporters: [
-    "json",
-    "json-summary",
-    "text",
-    "lcov"
-  ],
+  coverageReporters: ["json", "json-summary", "text", "lcov"],
   coverageThreshold: {
     global: {
       lines: 100,
       statements: 100,
       branches: 94.11,
       functions: 100,
-    }
+    },
   },
 
   clearMocks: true,
 
   globals: {
     window: {},
-    jest: true
+    jest: true,
   },
 
   coverageProvider: "v8",
 
   moduleNameMapper: {
-    '\\.(css)$': 'identity-obj-proxy',
+    "\\.(css)$": "identity-obj-proxy",
     //'\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
     //    '<rootDir>/mocks/fileMock.js',
     //'\\.svg$': '<rootDir>/mocks/fileMock.js',
     //'@swagger': '<rootDir>/swagger/swagger-api',
   },
-
 
   // The test environment that will be used for testing
   testEnvironment: "jsdom",
