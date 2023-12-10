@@ -1,14 +1,12 @@
 import { getIP, getWeather, addCityInList, startAll } from "./main";
-import { requestDomain } from "./constants";
+import { callIfTrue, requestDomain } from "./constants";
 
 const resultIp = "1";
 const city1 = "city-1";
 const resultWeather = { description: "description", temp: 0 };
 
-//result = {ip: "", weather:{description:"", temp:0}}
 function setFetchResult() {
-  // eslint-disable-next-line no-undef
-  global.fetch = (path = "") =>
+  window.fetch = (path = "") =>
     Promise.resolve({
       json: () => {
         if (path.startsWith("https://" + requestDomain.ipApi)) {
@@ -58,9 +56,12 @@ function initTemplate(initInput = "") {
 setFetchResult();
 
 test("test getIP", async () => {
-  //const resultIp = "1";
-  //setFetchResult();
   expect(await getIP()).toBe(resultIp);
+});
+
+test("test callIfTrue", async () => {
+  expect(callIfTrue(false, () => 5)()).toBe(undefined);
+  expect(callIfTrue(true, () => 5)()).toBe(5);
 });
 
 test("test getWeather", async () => {
@@ -122,8 +123,36 @@ test("test cityFromListClick", async () => {
   const impMap = document.getElementById("map");
   expect(impMap.src).toBe("");
   elem.click();
-  await wait(10);
+  await wait(0);
   expect(impMap.src).toContain("static-maps.yandex.ru/");
+});
+
+test("test KeyboardEvent", async () => {
+  initTemplate();
+
+  const input = document.getElementById("input");
+  const events = {};
+  input.addEventListener = jest.fn((event, cb) => {
+    events[event] = cb;
+  });
+  await startAll();
+
+  const city = "city-keydown";
+  input.value = city;
+  events.keydown({ key: "Enter" });
+  await wait(0);
+  expect(document.body.innerHTML).toContain(
+    `<li data-city="${city}">${city}</li>`,
+  );
+  expect(input.value).toBe("");
+});
+
+test("test - bad city", async () => {
+  window.fetch = () =>
+    Promise.resolve({
+      json: () => Promise.resolve({}),
+    });
+  expect(await getWeather("")).toEqual(false);
 });
 
 async function wait(ms) {
