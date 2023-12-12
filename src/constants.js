@@ -1,4 +1,5 @@
 export const idList = "list";
+export const citiesList = [];
 
 export const requestDomain = {
   openWeather: "api.openweathermap.org",
