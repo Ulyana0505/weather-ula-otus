@@ -1,26 +1,26 @@
 import "./style.css";
-import {callIfTrue, citiesList, idList} from "./constants";
-import {loadList, saveList} from "./storage";
-import {getCity, getCityCoordinatesByName, getWeather} from "./api";
+import { callIfTrue, citiesList, idList } from "./constants";
+import { loadList, saveList } from "./storage";
+import { getCity, getCityCoordinatesByName, getWeather } from "./api";
 
 callIfTrue(!window.jest, startAll)();
 
 async function initApp() {
   const city = await getCity();
-  if(city){
+  if (city) {
     mapStatic(city.ll);
     getWeather(city.cityName).then(showWeather);
   }
 }
 
 function mapStatic(ll) {
-  if(!ll) return;
+  if (!ll) return;
   const map = document.getElementById("map");
   map.src = `https://static-maps.yandex.ru/v1?ll=${ll}&spn=0.016457,0.00619&apikey=220bcecd-2e57-4af8-9150-e82755be7199`;
 }
 
-function showWeather(data){
-  if(!data) return;
+function showWeather(data) {
+  if (!data) return;
   const tempInF = `${data.temp}`;
   const numtempInF = Number(tempInF);
   const tempInC = Math.round(numtempInF - 273.15);
@@ -68,7 +68,7 @@ async function addCityInList() {
 async function cityFromListClick(e) {
   if (e.target.dataset && e.target.dataset.city) {
     const city = e.target.dataset.city;
-    getWeather(city).then(showWeather)
+    getWeather(city).then(showWeather);
     getCityCoordinatesByName(city).then(mapStatic);
   }
 }
