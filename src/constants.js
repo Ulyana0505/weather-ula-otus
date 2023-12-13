@@ -3,7 +3,7 @@ export const citiesList = [];
 
 export const requestDomain = {
   openWeather: "api.openweathermap.org",
-  sypExGeo: "api.sypexgeo.net",
+  ipApi: "ipapi.co",
 };
 
 export function callIfTrue(flag, call) {
