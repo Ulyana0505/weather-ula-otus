@@ -1,4 +1,4 @@
-import { callIfTrue } from './constants'
+import { callIfTrue } from '../src/constants'
 
 test('test callIfTrue', async () => {
   expect(callIfTrue(false, () => 5)()).toBe(undefined)

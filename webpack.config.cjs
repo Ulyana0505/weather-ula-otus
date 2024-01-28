@@ -16,7 +16,8 @@ const plugins = devMode
   : []
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/main.ts',
+  mode: "",
   module: {
     strictExportPresence: true,
     rules: [

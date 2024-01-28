@@ -1,6 +1,6 @@
-import { startAll } from './main'
-import { requestDomain } from './constants'
-import { storageKey } from './storage'
+import { startAll } from '../src/main'
+import { requestDomain } from '../src/constants'
+import { storageKey } from '../src/storage'
 
 const city1 = 'city-1'
 const resultWeather = { description: 'description', temp: 0 }

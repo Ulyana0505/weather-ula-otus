@@ -1,4 +1,4 @@
-import { getCity, getCityCoordinatesByName, getWeather } from './api'
+import { getCity, getCityCoordinatesByName, getWeather } from '../src/api'
 
 function mockFetchSucces(result: object) {
   window.fetch = () =>

@@ -1,5 +1,5 @@
-import { citiesList } from './constants'
-import { loadList, saveList, storageKey } from './storage'
+import { citiesList } from '../src/constants'
+import { loadList, saveList, storageKey } from '../src/storage'
 
 test('test saveList', async () => {
   citiesList.push('1')
