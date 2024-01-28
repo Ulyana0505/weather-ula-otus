@@ -10,7 +10,7 @@ async function initApp() {
   const city = await getCity()
   if (city) {
     mapStatic(city.ll)
-    getWeather(city.cityName) //.then(showWeather);
+    getWeather(city.cityName).then(showWeather);
   }
 }
 
