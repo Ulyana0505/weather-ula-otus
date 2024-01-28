@@ -1,42 +1,42 @@
-import { getCity, getCityCoordinatesByName, getWeather } from "./api";
+import { getCity, getCityCoordinatesByName, getWeather } from './api'
 
-function mockFetchSucces(result) {
+function mockFetchSucces(result: object) {
   window.fetch = () =>
     Promise.resolve({
       json: () => Promise.resolve(result),
-    });
+    } as Response)
 }
 
 function mockFetchFail() {
-  window.fetch = () => Promise.reject();
+  window.fetch = () => Promise.reject()
 }
 
-test("test getCity", async () => {
-  mockFetchSucces({ city: "city", longitude: "1", latitude: "2" });
-  expect(await getCity()).toEqual({ cityName: "city", ll: "1,2" });
-  mockFetchFail();
-  expect(await getCity()).toBe(null);
-});
+test('test getCity', async () => {
+  mockFetchSucces({ city: 'city', longitude: '1', latitude: '2' })
+  expect(await getCity()).toEqual({ cityName: 'city', ll: '1,2' })
+  mockFetchFail()
+  expect(await getCity()).toBe(null)
+})
 
-test("test getCityCoordinatesByName", async () => {
-  mockFetchSucces({ coord: { lon: "lon", lat: "lat" } });
-  expect(await getCityCoordinatesByName()).toEqual("lon,lat");
-  mockFetchFail();
-  expect(await getCityCoordinatesByName()).toBe(null);
-});
+test('test getCityCoordinatesByName', async () => {
+  mockFetchSucces({ coord: { lon: 'lon', lat: 'lat' } })
+  expect(await getCityCoordinatesByName()).toEqual('lon,lat')
+  mockFetchFail()
+  expect(await getCityCoordinatesByName()).toBe(null)
+})
 
-test("test getWeather", async () => {
+test('test getWeather', async () => {
   mockFetchSucces({
-    name: "name",
+    name: 'name',
     main: { temp: 0 },
-    weather: [{ description: "description", icon: "icon" }],
-  });
+    weather: [{ description: 'description', icon: 'icon' }],
+  })
   expect(await getWeather()).toEqual({
-    description: "description",
-    name: "name",
-    icon: "icon",
+    description: 'description',
+    name: 'name',
+    icon: 'icon',
     temp: 0,
-  });
-  mockFetchFail();
-  expect(await getWeather()).toBe(null);
-});
+  })
+  mockFetchFail()
+  expect(await getWeather()).toBe(null)
+})

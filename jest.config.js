@@ -5,7 +5,7 @@
 
 /** @type {import('jest').Config} */
 const config = {
-  coverageReporters: ["json", "json-summary", "text", "lcov"],
+  coverageReporters: ['json', 'json-summary', 'text', 'lcov'],
   coverageThreshold: {
     global: {
       lines: 60,
@@ -22,10 +22,10 @@ const config = {
     jest: true,
   },
 
-  coverageProvider: "v8",
+  coverageProvider: 'v8',
 
   moduleNameMapper: {
-    "\\.(css)$": "identity-obj-proxy",
+    '\\.(css)$': 'identity-obj-proxy',
     //'\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
     //    '<rootDir>/mocks/fileMock.js',
     //'\\.svg$': '<rootDir>/mocks/fileMock.js',
@@ -33,7 +33,7 @@ const config = {
   },
 
   // The test environment that will be used for testing
-  testEnvironment: "jsdom",
+  testEnvironment: 'jsdom',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -81,6 +81,6 @@ const config = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
+}
 
-module.exports = config;
+module.exports = config

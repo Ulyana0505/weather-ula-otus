@@ -1,15 +1,15 @@
-import { citiesList } from "./constants";
+import { citiesList } from './constants'
 
-export const storageKey = "cities";
+export const storageKey = 'cities'
 export function saveList() {
-  return localStorage.setItem(storageKey, JSON.stringify(citiesList));
+  return localStorage.setItem(storageKey, JSON.stringify(citiesList))
 }
 
 export function loadList() {
-  const dataStr = localStorage.getItem(storageKey);
+  const dataStr = localStorage.getItem(storageKey)
   if (dataStr) {
     for (const row of JSON.parse(dataStr)) {
-      citiesList.push(row);
+      citiesList.push(row)
     }
   }
 }
