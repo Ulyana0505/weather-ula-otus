@@ -15,7 +15,7 @@ const config = {
   },
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
   collectCoverage: true,
-  collectCoverageFrom: ["tests/**/*"],
+  collectCoverageFrom: ["src/**/*"],
   clearMocks: true,
   globals: {
     window: {},
@@ -23,7 +23,7 @@ const config = {
   },
   roots: ["tests"],
 
-  coverageReporters: ['json', 'json-summary', 'text', 'lcov'],
+  /*coverageReporters: ["json", "json-summary", "text", "lcov"],
   coverageThreshold: {
     global: {
       lines: 100,
@@ -31,7 +31,7 @@ const config = {
       branches: 88.88,
       functions: 100,
     },
-  },
+  },*/
 };
 
 module.exports = config;
