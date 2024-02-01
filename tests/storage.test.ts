@@ -1,21 +1,13 @@
-import { citiesList } from '../src/constants'
 import { loadList, saveList, storageKey } from '../src/storage'
 
 test('test saveList', async () => {
-  citiesList.push('1')
-  saveList()
-  expect(localStorage.getItem(storageKey)).toBe(`["1"]`)
+    saveList(['1'])
+    expect(localStorage.getItem(storageKey)).toBe(`["1"]`)
+    localStorage.clear()
 })
 
 test('test loadList', async () => {
-  // очищаем от предыдущего теста
-  citiesList.shift()
-  expect(citiesList.length).toEqual(0)
-  loadList()
-  expect(citiesList.length).toEqual(1)
-  // ---
-  citiesList.shift()
-  localStorage.removeItem(storageKey)
-  loadList()
-  expect(citiesList.length).toEqual(0)
+    expect(loadList().length).toEqual(0)
+    saveList(['1'])
+    expect(loadList().length).toEqual(1)
 })
